@@ -1,0 +1,2 @@
+module GhousesHelper
+end

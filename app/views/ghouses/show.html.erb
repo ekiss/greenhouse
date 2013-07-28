@@ -1,0 +1,35 @@
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		new Highcharts.Chart({
+			chart: { 
+				renderTo: "temperature_data"
+			},
+
+			title: {
+				text: "Temp Data"
+			},
+
+			xAxis: {
+				type: "datetime"
+			},
+			yAxis: {
+				title:{
+					text: "Dollars"
+				}
+			},
+			series: [{
+				pointInterval: <%= 10.minutes * 1000 %>,
+				
+				data: <%= @ghouse.conditions.pluck(:air_temperature) %>
+			}]
+			
+		});
+	});
+</script>
+<div id = "temperature_data" style = "width:500px; heigh:300px;">
+
+</div>
+<%= @ghouse.name %>, <%= @ghouse.address %>
+<ol class="microposts">
+<%= @ghouse.conditions.all %>
+</ol>
