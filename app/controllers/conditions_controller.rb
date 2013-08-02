@@ -4,7 +4,7 @@ class ConditionsController < ApplicationController
 	respond_to :html, :json
 
   def create
-  	@ghouse = Ghouse.find_by_id(params[:condition][:ghouse_id])
+    @ghouse = Ghouse.find_by_id(params[:condition][:ghouse_id])
 
 
   	@condition = @ghouse.conditions.build(condition_params)

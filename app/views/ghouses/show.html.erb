@@ -1,30 +1,50 @@
 <script type="text/javascript" charset="utf-8">
-	$(function() {
-		new Highcharts.Chart({
-			chart: { 
-				renderTo: "temperature_data"
-			},
+	setInterval(function(){
+	$.getJSON('http://localhost:3000/ghouses/1.json', null, function(data) {
+      console.log(String(data));
+      line_chart("temperature_data", data);
+ 		 	});
+ 	}, 10000);
 
+
+ 	function line_chart(div, data)
+{
+	Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+	new Highcharts.Chart({
+
+		chart: {
+			renderTo: div
+		},
+
+		title: {
+
+			text: "Temperature"
+		},
+
+		xAxis: {
+			type: "datetime"
+		},
+
+		yAxis: {
 			title: {
-				text: "Temp Data"
-			},
+				text: "Degrees"
+			}
+		},
 
-			xAxis: {
-				type: "datetime"
-			},
-			yAxis: {
-				title:{
-					text: "Dollars"
-				}
-			},
-			series: [{
-				pointInterval: <%= 10.minutes * 1000 %>,
-				
-				data: <%= @ghouse.conditions.pluck(:air_temperature) %>
-			}]
-			
-		});
-	});
+		series: [{
+			data: data
+		}]
+	})
+
+
+}
+
+	
 </script>
 <div id = "temperature_data" style = "width:500px; heigh:300px;">
 
