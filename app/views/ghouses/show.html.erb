@@ -1,5 +1,11 @@
 <script type="text/javascript" charset="utf-8">
-	setInterval(function(){
+	//'http://localhost:3000/ghouses/1.json'
+    //'https://limitless-ravine-8422.herokuapp.com/ghouses/1.json'
+    $.getJSON('https://limitless-ravine-8422.herokuapp.com/ghouses/1.json', null, function(data) {
+      console.log(String(data));
+      line_chart("temperature_data", data);
+            });
+    setInterval(function(){
 	$.getJSON('https://limitless-ravine-8422.herokuapp.com/ghouses/1.json', null, function(data) {
       console.log(String(data));
       line_chart("temperature_data", data);
@@ -27,14 +33,54 @@
 		},
 
 		xAxis: {
-			type: "datetime"
+			type: "datetime",
+            dateTimeLabelFormats : {
+        hour: "%a",
+        minute: "%a"
+    }
 		},
 
 		yAxis: {
 			title: {
 				text: "Degrees"
-			}
+			},
+			min: 0,
+			max: 120,
+            minorGridLineWidth: 0,
+            gridLineWidth: 0,
+            endOnTick: false,
+            alternateGridColor: null,
+
+			plotBands: [{ // Light air
+                    from: 0,
+                    to: 50,
+                    color: 'rgba(68, 170, 213, 0.05)',
+                    label: {
+                        
+                        style: {
+                            color: '#606060'
+                        }
+                    }
+                }, { // Light breeze
+                    from: 80,
+                    to: 120,
+                    color: 'rgba(255, 0, 0, .05)',
+                    label: {
+                        
+                        style: {
+                            color: '#606060'
+                        }
+                    }
+                }]
 		},
+		plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: false
+                    },
+                    enableMouseTracking: false
+                }
+            },
 
 		series: [{
 			data: data
@@ -46,10 +92,9 @@
 
 	
 </script>
-<div id = "temperature_data" style = "width:500px; heigh:300px;">
+<div id = "temperature_data" style = "width:800px; height:500px;  margin-left: auto ;  margin-right: auto ;">
 
 </div>
+<div >
 <%= @ghouse.name %>, <%= @ghouse.address %>
-<ol class="microposts">
-<%= @ghouse.conditions.all %>
-</ol>
+</div>
