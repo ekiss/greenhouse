@@ -10,7 +10,7 @@
       console.log(String(data));
       line_chart("temperature_data", data);
  		 	});
- 	}, 10000);
+ 	}, 30000);
 
 
  	function line_chart(div, data)
@@ -35,17 +35,16 @@
 		xAxis: {
 			type: "datetime",
             dateTimeLabelFormats : {
-        hour: "%a",
-        minute: "%a"
-    }
-		},
+        hour: '%I %p',
+        minute: '%I:%M %p'
+    }		},
 
 		yAxis: {
 			title: {
 				text: "Degrees"
 			},
 			min: 0,
-			max: 120,
+			//max: 120,
             minorGridLineWidth: 0,
             gridLineWidth: 0,
             endOnTick: false,
