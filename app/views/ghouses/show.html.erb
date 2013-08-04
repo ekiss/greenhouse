@@ -8,7 +8,7 @@
 
 */
     setInterval(function(){
-	$.getJSON('http://localhost:3000/ghouses/1.json', null, function(data) {
+	$.getJSON('https://limitless-ravine-8422.herokuapp.com/ghouses/1.json', null, function(data) {
       //console.log(String(data));
       line_chart("temperature_data", data);
  		 	});
