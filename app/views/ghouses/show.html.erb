@@ -1,14 +1,14 @@
 <script type="text/javascript" charset="utf-8">
 	//'http://localhost:3000/ghouses/1.json'
     //'https://limitless-ravine-8422.herokuapp.com/ghouses/1.json'
-   $.getJSON('https://limitless-ravine-8422.herokuapp.com/ghouses/1.json', null, function(data) {
+   $.getJSON('http://localhost:3000/ghouses/1.json', null, function(data) {
      // console.log(String(data));
       line_chart("temperature_data", data);
             });
 
 
     setInterval(function(){
-	$.getJSON('https://limitless-ravine-8422.herokuapp.com/ghouses/1.json', null, function(data) {
+	$.getJSON('http://localhost:3000/ghouses/1.json', null, function(data) {
       //console.log(String(data));
       line_chart("temperature_data", data);
  		 	});
@@ -84,8 +84,12 @@
             },
 
 		series: [{
-            name: 'John',
+            name: 'Air Temperature 1',
         color: '#006600',
+        marker: {
+                radius: 3
+            },
+            lineWidth: 2,
 			data: data
 		}]
 	})
