@@ -43,7 +43,7 @@ class GhousesController < ApplicationController
     end
 
     def json_formatter()
-      array = @conditions.pluck(:created_at, :air_temperature)
+      array = @conditions.where(created_at: (Time.now - 1.day)..Time.now).pluck(:created_at, :air_temperature)
       a_new = []
       for i in 0..array.size-1
         array[i][0] = (array[i][0].to_f*1000).to_i
