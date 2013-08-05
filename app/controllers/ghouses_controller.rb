@@ -51,7 +51,7 @@ class GhousesController < ApplicationController
       end
 
 
-      return array
+      return array.reverse
     end
 
 
