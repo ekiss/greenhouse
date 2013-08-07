@@ -21,7 +21,7 @@ class ConditionsController < ApplicationController
   private
 
     def condition_params
-      params.require(:condition).permit(:ghouse_id, :air_temperature, :res_temperature, :PH, :EC, :humidity)
+      params.require(:condition).permit(:ghouse_id, :air_temperature, :res_temperature, :PH, :EC, :humidity, :CO2)
     end
 
     def find_ghouse

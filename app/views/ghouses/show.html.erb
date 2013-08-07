@@ -1,22 +1,27 @@
 <script type="text/javascript" charset="utf-8">
 	//'http://localhost:3000/ghouses/1.json'
     //'https://limitless-ravine-8422.herokuapp.com/ghouses/1.json'
-   $.getJSON('https://limitless-ravine-8422.herokuapp.com/ghouses/1.json', null, function(data) {
+   $.getJSON('http://localhost:3000/ghouses/1.json', null, function(data) {
      // console.log(String(data));
-      line_chart("temperature_data", data);
+      render_charts(data);
             });
 
 
     setInterval(function(){
-	$.getJSON('https://limitless-ravine-8422.herokuapp.com/ghouses/1.json', null, function(data) {
+	$.getJSON('http://localhost:3000/ghouses/1.json', null, function(data) {
       //console.log(String(data));
-      line_chart("temperature_data", data);
+      render_charts(data);
  		 	});
  	}, 60000);
 
-
- 	function line_chart(div, data)
+function render_charts(data)
 {
+    atm_chart("atm_graph", data);
+    res_chart("res_graph", data);
+}
+
+ 	function atm_chart(div, data)
+{   
 	Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -24,56 +29,89 @@
         });
 
 	new Highcharts.Chart({
-
 		chart: {
 			renderTo: div
 		},
-
 		title: {
-
-			text: "Temperature"
+			text: "Atmospheric Conditions"
 		},
-
 		xAxis: {
 			type: "datetime",
             dateTimeLabelFormats : {
-        hour: '%I %p',
-        minute: '%I:%M %p'
-    }		},
-
-		yAxis: {
+                hour: '%I %p',
+                minute: '%I:%M %p'
+            }		
+        },
+		yAxis: [{
 			title: {
-				text: "Degrees"
+				text: "Degrees",
+                style: {
+                    color: '#AA4643'
+                }
 			},
+            labels: {
+                    formatter: function() {
+                        return this.value +'°F';
+                    },
+                    style: {
+                    color: '#AA4643'
+                }
+                },
 			min: 0,
 			//max: 120,
             minorGridLineWidth: 0,
             gridLineWidth: 0,
             endOnTick: false,
-            alternateGridColor: null,
+            alternateGridColor: null
 
-			plotBands: [{ // Light air
+			/*plotBands: [{ // Light air
                     from: 0,
                     to: 50,
-                    color: 'rgba(68, 170, 213, 0.05)',
-                    label: {
-                        
-                        style: {
-                            color: '#606060'
-                        }
-                    }
+                    color: 'rgba(68, 170, 213, 0.05)'
                 }, { // Light breeze
                     from: 80,
                     to: 150,
-                    color: 'rgba(255, 0, 0, .05)',
-                    label: {
-                        
-                        style: {
-                            color: '#606060'
-                        }
-                    }
-                }]
+                    color: 'rgba(255, 0, 0, .05)'
+                }] */
 		},
+        {
+            min: 0,
+            gridLineWidth: 0,
+                title: {
+                    text: 'Relative humidity',
+                    style: {
+                        color: '#00BFFF'
+                    }
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +' %';
+                    },
+                    style: {
+                        color: '#00BFFF'
+                    }
+                },
+                opposite: true
+        },
+        {
+            min: 0,
+            gridLineWidth: 0,
+                title: {
+                    text: 'CO2 levels',
+                    style: {
+                        color: '#9932CC'
+                    }
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +' pmm';
+                    },
+                    style: {
+                        color: '#9932CC'
+                    }
+                },
+                opposite: true
+        }],
 		plotOptions: {
                 line: {
                     dataLabels: {
@@ -82,26 +120,223 @@
                     enableMouseTracking: false
                 }
             },
-
 		series: [{
-            name: 'Air Temperature 1',
-        color: '#006600',
-        marker: {
+            name: 'Air Temperature',
+            color: '#AA4643',
+            marker: {
                 radius: 3
             },
             lineWidth: 2,
-			data: data
-		}]
+			data: air_formatter(data)
+		},
+        {
+            name: 'CO2',
+            color: '#9932CC',
+            yAxis: 2,
+            marker: {
+                radius: 3
+            },
+            lineWidth: 2,
+            data: CO2_formatter(data)
+        },
+        {
+            name: 'Humidity',
+            color: '#00BFFF',
+            yAxis: 1,
+            marker: {
+                radius: 3
+            },
+            lineWidth: 2,
+            data: hum_formatter(data)
+        }]
 	})
+}
+
+    function res_chart(div, data)
+{   
+    Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+    new Highcharts.Chart({
+
+        chart: {
+            renderTo: div
+        },
+        title: {
+            text: "Reservoir Conditions"
+        },
+        xAxis: {
+            type: "datetime",
+            dateTimeLabelFormats : {
+                hour: '%I %p',
+                minute: '%I:%M %p'
+            }
+               },
+        yAxis: [{
+            title: {
+                text: "Degrees",
+                style: {
+                    color: '#FF1493'
+                }
+            },
+            labels: {
+                    formatter: function() {
+                        return this.value +'°F';
+                    },
+                    style: {
+                        color: '#FF1493'
+                    }
+                },
+            min: 0,
+            //max: 120,
+            minorGridLineWidth: 0,
+            gridLineWidth: 0,
+            endOnTick: false,
+            alternateGridColor: null 
+        },
+        {
+            min: 0,
+            gridLineWidth: 0,
+                title: {
+                    text: 'Electrical Conductivity',
+                    style: {
+                        color: '#4682B4'
+                    }
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value +' EC';
+                    },
+                    style: {
+                        color: '#00BFFF'
+                    }
+                },
+                opposite: true
+        },
+        {
+            min: 0,
+            max: 14,
+            minorGridLineWidth: 0,
+            gridLineWidth: 0,
+            endOnTick: false,
+                title: {
+                    text: 'pH',
+                    style: {
+                        color: '#FFD700'
+                    }
+                },
+                labels: {
+                    style: {
+                        color: '#FFD700'
+                    }
+                },
+                opposite: true
+        }],
+        plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: false
+                    },
+                    enableMouseTracking: false
+                }
+            },
+        series: [{
+            name: 'Reservoir Temperature',
+            color: '#FF1493',
+            marker: {
+                radius: 3
+            },
+            lineWidth: 2,
+            data: res_formatter(data)
+        },
+        {
+            name: 'PH',
+            color: '#FFD700',
+            yAxis: 2,
+            marker: {
+                radius: 3
+            },
+            lineWidth: 2,
+            data: PH_formatter(data)
+        },
+        {
+            name: 'EC',
+            color: '#4682B4',
+            yAxis: 1,
+            marker: {
+                radius: 3
+            },
+            lineWidth: 2,
+            data: EC_formatter(data)
+        }]
+    })
+}
 
 
+function air_formatter(data)
+{
+var array = [];
+for (var i=0; i<=data.length-1; i++){
+    array[i] = [data[i][0], data[i][1]];
+}
+return array;
+}
+
+function res_formatter(data)
+{
+var array = [];
+for (var i=0; i<=data.length-1; i++){
+    array[i] = [data[i][0], data[i][2]];
+}
+return array;
+}
+
+function PH_formatter(data)
+{
+var array = [];
+for (var i=0; i<=data.length-1; i++){
+    array[i] = [data[i][0], data[i][3]];
+}
+return array;
+}
+
+function EC_formatter(data)
+{
+var array = [];
+for (var i=0; i<=data.length-1; i++){
+    array[i] = [data[i][0], data[i][4]];
+}
+return array;
+}
+
+function hum_formatter(data)
+{
+var array = [];
+for (var i=0; i<=data.length-1; i++){
+    array[i] = [data[i][0], data[i][5]];
+}
+return array;
+}
+
+function CO2_formatter(data)
+{
+var array = [];
+for (var i=0; i<=data.length-1; i++){
+    array[i] = [data[i][0], data[i][6]];
+}
+console.log(String(array));
+return array;
 }
 
 	
 </script>
-<div id = "temperature_data" style = "width:800px; height:500px;  margin-left: auto ;  margin-right: auto ;">
-
+<div>
+<div id = "atm_graph" style = "width:1000px; height:400px;  margin-left: auto ;  margin-right: auto ;"></div>
+<div id = "res_graph" style = "width:1000px; height:400px;  margin-left: auto ;  margin-right: auto ;"></div>
 </div>
-<div >
+<div>
 <%= @ghouse.name %>, <%= @ghouse.address %>
 </div>

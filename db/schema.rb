@@ -11,17 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130727015500) do
+ActiveRecord::Schema.define(version: 20130806224400) do
 
   create_table "conditions", force: true do |t|
-    t.integer  "air_temperature"
-    t.integer  "res_temperature"
-    t.integer  "PH"
-    t.integer  "EC"
-    t.integer  "humidity"
+    t.float    "air_temperature"
+    t.float    "res_temperature"
+    t.float    "PH"
+    t.float    "EC"
+    t.float    "humidity"
     t.integer  "ghouse_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "CO2"
   end
 
   add_index "conditions", ["ghouse_id", "created_at"], name: "index_conditions_on_ghouse_id_and_created_at"
