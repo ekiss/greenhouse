@@ -4,7 +4,7 @@ class ChangeColumnsForConditions < ActiveRecord::Migration
         t.change :air_temperature, :float
         t.change :res_temperature, :float 
         t.change :PH, :float 
-        t.change :EC, :float 
+        #t.change :EC, :float 
         t.change :humidity, :float 
     end
   end
