@@ -307,7 +307,7 @@ function EC_formatter(data)
 {
 var array = [];
 for (var i=0; i<=data.length-1; i++){
-    array[i] = [data[i][0], data[i][4]];
+    array[i] = [data[i][0], parseFloat(data[i][4])];
 }
 return array;
 }
