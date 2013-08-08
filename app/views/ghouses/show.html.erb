@@ -95,7 +95,7 @@ function render_charts(data)
         },
         {
             min: 0,
-            max: 1800,
+            max: 800,
             gridLineWidth: 0,
                 title: {
                     text: 'CO2 levels',
@@ -327,10 +327,6 @@ function CO2_formatter(data)
 var array = [];
 for (var i=0; i<=data.length-1; i++){
     array[i] = [data[i][0], data[i][6]];
-    if (data[i][6] > 2000)
-    {
-        data[i][6] = 0;
-    }
 }
 console.log(String(array));
 return array;
