@@ -1,11 +1,11 @@
 class CreateConditions < ActiveRecord::Migration
   def change
     create_table :conditions do |t|
-      t.float :air_temperature
-      t.float :res_temperature
-      t.float :PH
-      t.string :EC
-      t.float :humidity
+      t.integer :air_temperature
+      t.integer :res_temperature
+      t.integer :PH
+      t.integer :EC
+      t.integer :humidity
       t.integer :ghouse_id
 
       t.timestamps

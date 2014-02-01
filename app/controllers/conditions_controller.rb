@@ -1,4 +1,4 @@
-class ConditionsController < ApplicationController
+  class ConditionsController < ApplicationController
 	skip_before_filter :verify_authenticity_token
 
 	respond_to :html, :json
@@ -21,7 +21,7 @@ class ConditionsController < ApplicationController
   private
 
     def condition_params
-      params.require(:condition).permit(:ghouse_id, :air_temperature, :res_temperature, :PH, :EC, :humidity, :CO2)
+      params.require(:condition).permit(:ghouse_id, :air_temperature, :res_temperature, :PH, :EC, :humidity, :CO2, :GPS)
     end
 
     def find_ghouse
