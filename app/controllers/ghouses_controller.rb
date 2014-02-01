@@ -3,7 +3,8 @@ class GhousesController < ApplicationController
   def show
   	@ghouse = Ghouse.find(params[:id])
     @conditions = @ghouse.conditions
-    respond_with json_formatter()
+    respond_with @ghouse.conditions.first.GPS
+    #respond_with json_formatter()
   end
 
 
