@@ -50,7 +50,7 @@ class GhousesController < ApplicationController
       end
 
 
-      return @conditions.first.GPS
+      return array.reverse
     end
 
 
