@@ -37,7 +37,7 @@ geojson = {
         type: "Feature", 
         geometry: { 
             type: "Point", 
-            coordinates: <%= "[" + @ghouse.conditions.first.GPS + "]" %>
+            coordinates: <%= "[" + @ghouse.conditions.first.GPS.split(',').reverse.join(',') + "]" %>,
         }, 
         properties: { "radius":"100"} 
     }] 
