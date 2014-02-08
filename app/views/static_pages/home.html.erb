@@ -1,4 +1,4 @@
-<div class="center hero-unit">
+<!--<div class="center hero-unit">
   <h1>Welcome to the Sample App</h1>
 
   <h2>
@@ -8,6 +8,63 @@
   </h2>
 
   <%= link_to "Sign up now!", '#', class: "btn btn-large btn-primary" %>
+</div> -->
+<style>
+ 
+  #map {  position:absolute; float:left; height:100%; width:100%; }
+</style>
+</head>
+<div>
+
+	<%= "[" + @ghouse.conditions.first.GPS + "]" %>
+
 </div>
 
-<%= link_to image_tag("rails.png", alt: "Rails"), 'http://rubyonrails.org/' %>
+<div id='map'></div>
+
+
+
+
+<script>
+
+var map = L.mapbox.map('map', 'ekiss13.h7ceak55')
+	.setView([38.41706489117004, -122.93532729148863], 19);
+
+
+	
+map.zoomControl.setPosition('bottomright');
+
+
+geojson = { 
+    type: "FeatureCollection", 
+    features: [{ 
+        type: "Feature", 
+        geometry: { 
+            type: "Point", 
+            coordinates: <%= "[" + @ghouse.conditions.first.GPS + "]" %>
+        }, 
+        properties: { "radius":"100"} 
+    }] 
+}
+
+var markerLayer = L.mapbox.markerLayer(geojson).addTo(map);
+
+
+
+map.on('click', function(e){
+    placeMarker(map, e.latlng);
+
+});
+
+function placeMarker(map, latlng) {
+    var LatLng = new L.LatLng(latlng.lat, latlng.lng);
+    var marker = new L.Marker(LatLng, {
+        icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
+            draggable: true
+    });
+
+    marker.addTo(map);
+}
+
+
+</script>
