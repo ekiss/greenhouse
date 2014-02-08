@@ -29,7 +29,7 @@
 
 var map = L.mapbox.map('map', 'ekiss13.h7ceak55')
 	//.setView([38.41706489117004, -122.93532729148863], 19);
-	.setView(<%= "[" + @ghouse.conditions.first.GPS.reverse + "]" %>, 19);
+	.setView(<%= "[" + @ghouse.conditions.first.GPS + "]" %>, 19);
 
 	
 map.zoomControl.setPosition('bottomright');
